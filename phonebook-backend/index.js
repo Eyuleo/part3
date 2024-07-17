@@ -1,7 +1,14 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 app.use(express.json())
+
+morgan.token('body', (req) => {
+	return JSON.stringify(req.body)
+})
+
+app.use(morgan(':method :url :status - :response-time ms :body'))
 
 let persons = [
 	{
@@ -81,5 +88,11 @@ app.delete('/api/persons/:id', (req, res) => {
 	}
 	res.status(400).send({ message: 'person not found' })
 })
+
+const unknownEndpoint = (req, res) => {
+	res.status(404).send({ message: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 const PORT = 3000
 app.listen(PORT, () => console.log(`server running on ${PORT}`))
