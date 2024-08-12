@@ -18,6 +18,14 @@ const generateId = () => {
 	return Math.floor(Math.random() * 1000000)
 }
 
+app.get('/info', (req, res) => {
+	Phonebook.countDocuments().then((count) => {
+		res.send(
+			`<p>phonebook has info for ${count} people</p><p>${new Date()}</p>`
+		)
+	})
+})
+
 app.get('/api/persons', (req, res) => {
 	Phonebook.find({}).then((persons) => {
 		res.json(persons)
