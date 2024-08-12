@@ -18,12 +18,6 @@ const generateId = () => {
 	return Math.floor(Math.random() * 1000000)
 }
 
-app.get('/info', (req, res) => {
-	res.send(
-		`<p>phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`
-	)
-})
-
 app.get('/api/persons', (req, res) => {
 	Phonebook.find({}).then((persons) => {
 		res.json(persons)
